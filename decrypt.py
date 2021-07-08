@@ -16,23 +16,26 @@ class AESCipher:
         self.unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
     def encrypt(self):
-        try:
-            plain_text = self.pad(self.data)
-            iv = Random().read(AES.block_size)
-            cipher = AES.new(self.key, AES.MODE_CBC, iv)
-            return b64encode(iv + cipher.encrypt(plain_text.encode())).decode()
-        except:
-            return 'error, can not encrypt with these data.'
+        # try:
+        print('call function encrypt with plain message: ', self.data, file=sys.stderr)
+        plain_text = self.pad(self.data)
+        iv = Random().read(AES.block_size)
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        print('before encrypt', file=sys.stderr)
+        enc = b64encode(iv + cipher.encrypt(plain_text.encode())).decode()
+        return enc
+        # except:
+        #     return 'error, can not encrypt with these data.'
 
     def decrypt(self):
-        print('call function decrypt with encrypt message: ', self.data, file=sys.stderr)
-        sys.stdout.flush()
-        cipher_text = b64decode(self.data.encode())
-        iv = cipher_text[:self.block_size]
-        cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        print('before decrypt', file=sys.stderr)
-        sys.stdout.flush()
-        dec = self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
-        print('return decrypt message: ', dec, file=sys.stderr)
-        sys.stdout.flush()
-        return dec
+        try:
+            print('call function decrypt with encrypt message: ', self.data, file=sys.stderr)
+            cipher_text = b64decode(self.data.encode())
+            iv = cipher_text[:self.block_size]
+            cipher = AES.new(self.key, AES.MODE_CBC, iv)
+            print('before decrypt', file=sys.stderr)
+            dec = self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
+            print('return decrypt message: ', dec, file=sys.stderr)
+            return dec
+        except:
+            return 'error, can not decrypt with these data.'
