@@ -23,7 +23,11 @@ class AESCipher:
             return 'error, can not encrypt with these data.'
 
     def decrypt(self):
+        print('call function decrypt with encrypt message: ', self.data)
         cipher_text = b64decode(self.data.encode())
         iv = cipher_text[:self.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
+        print('before decrypt')
+        dec = self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
+        print('return decrypt message: ', dec)
+        return dec
