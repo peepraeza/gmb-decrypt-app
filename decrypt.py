@@ -3,13 +3,14 @@ from Crypto.Random import new as Random
 from hashlib import sha256
 from base64 import b64encode, b64decode
 
+
 class AESCipher:
     def __init__(self, data, gmbKey):
         self.block_size = 16
         self.data = data
         self.key = sha256(gmbKey.encode()).digest()[:16]
         self.pad = lambda s: s + (self.block_size - len(s) % self.block_size) * \
-            chr(self.block_size - len(s) % self.block_size)
+                             chr(self.block_size - len(s) % self.block_size)
         self.unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
     def encrypt(self):
@@ -29,4 +30,3 @@ class AESCipher:
             return self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
         except:
             return 'error, can not decrypt with these data.'
-

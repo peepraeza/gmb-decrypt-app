@@ -3,9 +3,11 @@ from decrypt import AESCipher
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def index():
     return "Hello World!"
+
 
 @app.route("/decrypt", methods=['POST'])
 def decrypt():
@@ -14,6 +16,7 @@ def decrypt():
     key = request_data['key']
     dec = AESCipher(message, key).decrypt()
     return dec
+
 
 @app.route("/encrypt", methods=['POST'])
 def encrypt():
