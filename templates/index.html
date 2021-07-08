@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GMB Encrypt/Decrypt Key</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container" style="padding: 10px">
+    <form id="contactForm1" method="POST" action="/process">
+        <label for="key">Key:</label>
+        <input style="width: 70%" type="text" id="key" name="key" value="" >
+        <input type="radio" id="decrypt" name="from-method" value="decrypt" checked>
+        <label for="decrypt">Decrypt</label>
+        <input type="radio" id="encrypt" name="from-method" value="encrypt">
+        <label for="encrypt">Encrypt</label><br>
+        <label for="encryptedData">Decrypted/Encrypted Data :</label><br>
+        <textarea id="encryptedData" rows="10" cols="50" style="width: 100%" name="encryptedData"
+                  form="contactForm1"></textarea><br>
+        <input type="submit" id="submit" value="Submit">
+    </form>
+    <br><br>
+    <label for="decryptedData">Decrypted/Encrypted Message : </label>
+    <textarea id="decryptedData" rows="10" cols="50" style="width: 100%"></textarea>
+</div>
+<!--</div>-->
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    console.log("From Front End");
+    $(document).ready(() => {
+        var frm = $('#contactForm1');
+        frm.submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: frm.serialize(),
+                success: function (data) {
+                    console.log('Submission was successful.');
+                    console.log(data);
+                    $('#decryptedData').html(data);
+                },
+                error: function (data) {
+                    console.log('An error occurred.');
+                    console.log(data);
+                },
+            });
+        });
+    });
+</script>
+</html>
