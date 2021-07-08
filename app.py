@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, request
 from decrypt import AESCipher
 
@@ -11,6 +13,7 @@ def index():
 
 @app.route("/decrypt", methods=['POST'])
 def decrypt():
+    print('router Call Decrypt', file=sys.stderr)
     request_data = request.get_json()
     message = request_data['message']
     key = request_data['key']
@@ -20,8 +23,13 @@ def decrypt():
 
 @app.route("/encrypt", methods=['POST'])
 def encrypt():
+    print('router Call Encrypt', file=sys.stderr)
     request_data = request.get_json()
     message = request_data['message']
     key = request_data['key']
     enc = AESCipher(message, key).encrypt()
     return enc
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
