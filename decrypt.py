@@ -1,3 +1,5 @@
+import sys
+
 from Crypto.Cipher import AES
 from Crypto.Random import new as Random
 from hashlib import sha256
@@ -24,10 +26,13 @@ class AESCipher:
 
     def decrypt(self):
         print('call function decrypt with encrypt message: ', self.data)
+        sys.stdout.flush()
         cipher_text = b64decode(self.data.encode())
         iv = cipher_text[:self.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         print('before decrypt')
+        sys.stdout.flush()
         dec = self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
         print('return decrypt message: ', dec)
+        sys.stdout.flush()
         return dec
